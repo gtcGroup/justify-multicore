@@ -27,11 +27,12 @@ package com.gtcgroup.justify.multicore.testing.extension;
 
 import java.util.concurrent.ForkJoinPool;
 
+import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-import com.gtcgroup.justify.core.testing.extension.JstBaseExtension;
+import com.gtcgroup.justify.core.testing.extension.JstBaseTestingExtension;
 import com.gtcgroup.justify.multicore.helper.JstForkJoinPoolCacheHelper;
 
 /**
@@ -45,7 +46,14 @@ import com.gtcgroup.justify.multicore.helper.JstForkJoinPoolCacheHelper;
  * @author Marvin Toll
  * @since 8.5
  */
-class ConfigureTestingMulticoreExtension extends JstBaseExtension implements BeforeAllCallback {
+class ConfigureTestingMulticoreExtension extends JstBaseTestingExtension
+		implements BeforeAllCallback, AfterAllCallback {
+
+	@Override
+	public void afterAll(final ExtensionContext context) throws Exception {
+		JstForkJoinPoolCacheHelper.deleteForkJoinPoolForTesting();
+
+	}
 
 	@Override
 	public void beforeAll(final ExtensionContext extensionContext) throws Exception {
@@ -65,7 +73,7 @@ class ConfigureTestingMulticoreExtension extends JstBaseExtension implements Bef
 	}
 
 	@Override
-	protected Class<? extends JstConfigureTestingMulticorePO> initializePropertiesFromAnnotation(
+	public Class<? extends JstConfigureTestingMulticorePO> initializePropertiesFromAnnotation(
 			final ExtensionContext extensionContext) {
 
 		final JstConfigureTestingMulticore configureMulticore = (JstConfigureTestingMulticore) retrieveAnnotation(

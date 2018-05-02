@@ -23,15 +23,11 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gtcgroup.justify.multicore.testing.extension;
+package com.gtcgroup.justify.multicore.testing.po.dependency;
 
-import java.util.concurrent.ForkJoinPool;
-
-import com.gtcgroup.justify.core.base.JstBasePO;
+import com.gtcgroup.justify.multicore.testing.extension.JstConfigureTestingMulticorePO;
 
 /**
- * This Parameter Object class supports configuring a {@link ForkJoinPool}.
- *
  * <p style="font-family:Verdana; font-size:10px; font-style:italic">
  * Copyright (c) 2006 - 2018 by Global Technology Consulting Group, Inc. at
  * <a href="http://gtcGroup.com">gtcGroup.com </a>.
@@ -40,22 +36,16 @@ import com.gtcgroup.justify.core.base.JstBasePO;
  * @author Marvin Toll
  * @since 8.5
  */
-public abstract class JstConfigureTestingMulticorePO extends JstBasePO {
+public class ConfigureMulticoreConstructorExceptionPO extends JstConfigureTestingMulticorePO {
 
-	public boolean containsParallelism() {
-
-		return 0 < defineParallelismTM();
+	public ConfigureMulticoreConstructorExceptionPO() {
+		super();
+		throw new RuntimeException("Intentional Exception");
 	}
 
-	public int getParallelism() {
+	@Override
+	protected int defineParallelismTM() {
 
-		return defineParallelismTM();
+		throw new RuntimeException("Intentional Exception");
 	}
-
-	/**
-	 * @return A number of zero to default to 2 times the number of available
-	 *         processors.
-	 */
-	protected abstract int defineParallelismTM();
-
 }

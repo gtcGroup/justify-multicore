@@ -29,7 +29,7 @@ package com.gtcgroup.justify.multicore.helper;
 import java.util.concurrent.ForkJoinPool;
 
 import com.gtcgroup.justify.core.po.JstExceptionPO;
-import com.gtcgroup.justify.core.testing.exception.internal.JustifyException;
+import com.gtcgroup.justify.core.testing.exception.internal.JustifyTestingException;
 import com.gtcgroup.justify.multicore.testing.extension.JstConfigureTestingMulticorePO;
 
 /**
@@ -50,45 +50,47 @@ public enum JstForkJoinPoolCacheHelper {
 
 	private static ForkJoinPool forkJoinPool;
 
-	public static void createForkJoinPool() {
-
-		final int availableProcessors = Runtime.getRuntime().availableProcessors();
-
-		forkJoinPool = new ForkJoinPool(2 * availableProcessors);
-	}
-
-	public static void createForkJoinPool(final int parallelism) {
-
-		forkJoinPool = new ForkJoinPool(parallelism);
+	public static void deleteForkJoinPoolForTesting() {
+		forkJoinPool = null;
 	}
 
 	public static ForkJoinPool getForkJoinPool() {
 
 		if (null == forkJoinPool) {
-			createForkJoinPool();
+			getForkJoinPool(Runtime.getRuntime().availableProcessors() * 2);
 		}
 		return forkJoinPool;
+	}
+
+	public static void getForkJoinPool(final int parallelism) {
+
+		forkJoinPool = new ForkJoinPool(parallelism);
 	}
 
 	/**
 	 * @return {@link JstConfigureTestingMulticorePO}
 	 */
 	public static JstConfigureTestingMulticorePO initializeForkJoinPool(
-			final Class<? extends JstConfigureTestingMulticorePO> configureTestClassPO) {
+			final Class<? extends JstConfigureTestingMulticorePO> configureTestingMulticoreClassPO) {
 
 		JstConfigureTestingMulticorePO configureTestInstancePO = null;
 
 		try {
-			configureTestInstancePO = configureTestClassPO.newInstance();
+			configureTestInstancePO = configureTestingMulticoreClassPO.newInstance();
+
 		} catch (@SuppressWarnings("unused") final Exception e) {
-			throw new JustifyException(
-					JstExceptionPO.withMessage("The [" + JstConfigureTestingMulticorePO.class.getSimpleName()
-							+ "] class should be extended with an instance containing proper values."));
+			throw new JustifyTestingException(
+					JstExceptionPO.withMessage("\n\t\tThe [" + JstConfigureTestingMulticorePO.class.getSimpleName()
+							+ "] class should be extended with\n\t\tan instance ["
+							+ configureTestingMulticoreClassPO.getSimpleName() + "] containing proper values."));
 		}
 
-		getForkJoinPool();
+		if (configureTestInstancePO.containsParallelism()) {
+			getForkJoinPool(configureTestInstancePO.getParallelism());
+		} else {
+			getForkJoinPool();
+		}
 
 		return configureTestInstancePO;
 	}
-
 }

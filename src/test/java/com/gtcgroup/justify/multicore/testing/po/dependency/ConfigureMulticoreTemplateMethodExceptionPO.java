@@ -36,11 +36,11 @@ import com.gtcgroup.justify.multicore.testing.extension.JstConfigureTestingMulti
  * @author Marvin Toll
  * @since 8.5
  */
-public class ConfigureMulticorePO extends JstConfigureTestingMulticorePO {
+public class ConfigureMulticoreTemplateMethodExceptionPO extends JstConfigureTestingMulticorePO {
 
 	@Override
 	protected int defineParallelismTM() {
 
-		return 0;
+		throw new RuntimeException("Intentional Exception");
 	}
 }

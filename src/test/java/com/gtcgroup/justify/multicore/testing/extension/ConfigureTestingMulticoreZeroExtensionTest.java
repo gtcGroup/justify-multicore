@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.gtcgroup.justify.core.testing.extension.JstConfigureTestLogToConsole;
+import com.gtcgroup.justify.core.testing.extension.JstConfigureTestingLogToConsole;
 import com.gtcgroup.justify.core.testing.helper.internal.LogTestConsoleUtilHelper;
 import com.gtcgroup.justify.multicore.helper.JstForkJoinPoolCacheHelper;
-import com.gtcgroup.justify.multicore.testing.po.dependency.ConfigureMulticorePO;
+import com.gtcgroup.justify.multicore.testing.po.dependency.ConfigureMulticoreWithZeroPO;
 
 /**
  * Test Class
@@ -45,10 +45,10 @@ import com.gtcgroup.justify.multicore.testing.po.dependency.ConfigureMulticorePO
  * @author Marvin Toll
  * @since v8.5
  */
-@JstConfigureTestLogToConsole
-@JstConfigureTestingMulticore(configureTestingMulticorePO = ConfigureMulticorePO.class)
+@JstConfigureTestingLogToConsole
+@JstConfigureTestingMulticore(configureTestingMulticorePO = ConfigureMulticoreWithZeroPO.class)
 @SuppressWarnings("static-method")
-public class ConfigureTestingMulticoreExtensionTest {
+public class ConfigureTestingMulticoreZeroExtensionTest {
 
 	@Test
 	public void testGetForkJoinPool() {

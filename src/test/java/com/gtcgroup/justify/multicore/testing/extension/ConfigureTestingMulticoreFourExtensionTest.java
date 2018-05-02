@@ -25,12 +25,16 @@
  */
 package com.gtcgroup.justify.multicore.testing.extension;
 
-import java.util.concurrent.ForkJoinPool;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.gtcgroup.justify.core.base.JstBasePO;
+import org.junit.jupiter.api.Test;
+
+import com.gtcgroup.justify.core.testing.extension.JstConfigureTestingLogToConsole;
+import com.gtcgroup.justify.multicore.helper.JstForkJoinPoolCacheHelper;
+import com.gtcgroup.justify.multicore.testing.po.dependency.ConfigureMulticoreWithFourPO;
 
 /**
- * This Parameter Object class supports configuring a {@link ForkJoinPool}.
+ * Test Class
  *
  * <p style="font-family:Verdana; font-size:10px; font-style:italic">
  * Copyright (c) 2006 - 2018 by Global Technology Consulting Group, Inc. at
@@ -38,24 +42,17 @@ import com.gtcgroup.justify.core.base.JstBasePO;
  * </p>
  *
  * @author Marvin Toll
- * @since 8.5
+ * @since v8.5
  */
-public abstract class JstConfigureTestingMulticorePO extends JstBasePO {
+@JstConfigureTestingLogToConsole
+@JstConfigureTestingMulticore(configureTestingMulticorePO = ConfigureMulticoreWithFourPO.class)
+@SuppressWarnings("static-method")
+public class ConfigureTestingMulticoreFourExtensionTest {
 
-	public boolean containsParallelism() {
+	@Test
+	public void testGetForkJoinPool() {
 
-		return 0 < defineParallelismTM();
+		assertEquals(4, JstForkJoinPoolCacheHelper.getForkJoinPool().getParallelism());
+
 	}
-
-	public int getParallelism() {
-
-		return defineParallelismTM();
-	}
-
-	/**
-	 * @return A number of zero to default to 2 times the number of available
-	 *         processors.
-	 */
-	protected abstract int defineParallelismTM();
-
 }

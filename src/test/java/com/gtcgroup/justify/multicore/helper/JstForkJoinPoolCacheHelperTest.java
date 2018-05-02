@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.gtcgroup.justify.core.testing.extension.JstConfigureTestLogToConsole;
+import com.gtcgroup.justify.core.testing.extension.JstConfigureTestingLogToConsole;
 import com.gtcgroup.justify.core.testing.helper.internal.LogTestConsoleUtilHelper;
 
 /**
@@ -43,7 +43,7 @@ import com.gtcgroup.justify.core.testing.helper.internal.LogTestConsoleUtilHelpe
  * @author Marvin Toll
  * @since v8.5
  */
-@JstConfigureTestLogToConsole
+@JstConfigureTestingLogToConsole
 @SuppressWarnings("static-method")
 public class JstForkJoinPoolCacheHelperTest {
 

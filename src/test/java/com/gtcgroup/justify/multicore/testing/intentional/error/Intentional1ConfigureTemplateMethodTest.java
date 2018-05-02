@@ -23,14 +23,19 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gtcgroup.justify.multicore.testing.extension;
+package com.gtcgroup.justify.multicore.testing.intentional.error;
 
-import java.util.concurrent.ForkJoinPool;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.gtcgroup.justify.core.base.JstBasePO;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+import com.gtcgroup.justify.core.testing.extension.JstConfigureTestingLogToConsole;
+import com.gtcgroup.justify.multicore.testing.extension.JstConfigureTestingMulticore;
+import com.gtcgroup.justify.multicore.testing.po.dependency.ConfigureMulticoreTemplateMethodExceptionPO;
 
 /**
- * This Parameter Object class supports configuring a {@link ForkJoinPool}.
+ * Test Class
  *
  * <p style="font-family:Verdana; font-size:10px; font-style:italic">
  * Copyright (c) 2006 - 2018 by Global Technology Consulting Group, Inc. at
@@ -38,24 +43,17 @@ import com.gtcgroup.justify.core.base.JstBasePO;
  * </p>
  *
  * @author Marvin Toll
- * @since 8.5
+ * @since v8.5
  */
-public abstract class JstConfigureTestingMulticorePO extends JstBasePO {
+@Tag(value = "intentional")
+@JstConfigureTestingLogToConsole
+@JstConfigureTestingMulticore(configureTestingMulticorePO = ConfigureMulticoreTemplateMethodExceptionPO.class)
+@SuppressWarnings("static-method")
+public class Intentional1ConfigureTemplateMethodTest {
 
-	public boolean containsParallelism() {
+	@Test
+	public void testThrowException() {
 
-		return 0 < defineParallelismTM();
+		assertTrue(true);
 	}
-
-	public int getParallelism() {
-
-		return defineParallelismTM();
-	}
-
-	/**
-	 * @return A number of zero to default to 2 times the number of available
-	 *         processors.
-	 */
-	protected abstract int defineParallelismTM();
-
 }
