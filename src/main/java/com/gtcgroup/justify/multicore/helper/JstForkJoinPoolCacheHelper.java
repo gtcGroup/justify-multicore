@@ -24,9 +24,13 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.gtcgroup.justify.rest.helper;
+package com.gtcgroup.justify.multicore.helper;
 
 import java.util.concurrent.ForkJoinPool;
+
+import com.gtcgroup.justify.core.po.JstExceptionPO;
+import com.gtcgroup.justify.core.testing.exception.internal.JustifyException;
+import com.gtcgroup.justify.multicore.testing.extension.JstConfigureTestingMulticorePO;
 
 /**
  * This Cache Helper class manages a {@link ForkJoinPool}.
@@ -53,6 +57,11 @@ public enum JstForkJoinPoolCacheHelper {
 		forkJoinPool = new ForkJoinPool(2 * availableProcessors);
 	}
 
+	public static void createForkJoinPool(final int parallelism) {
+
+		forkJoinPool = new ForkJoinPool(parallelism);
+	}
+
 	public static ForkJoinPool getForkJoinPool() {
 
 		if (null == forkJoinPool) {
@@ -60,4 +69,26 @@ public enum JstForkJoinPoolCacheHelper {
 		}
 		return forkJoinPool;
 	}
+
+	/**
+	 * @return {@link JstConfigureTestingMulticorePO}
+	 */
+	public static JstConfigureTestingMulticorePO initializeForkJoinPool(
+			final Class<? extends JstConfigureTestingMulticorePO> configureTestClassPO) {
+
+		JstConfigureTestingMulticorePO configureTestInstancePO = null;
+
+		try {
+			configureTestInstancePO = configureTestClassPO.newInstance();
+		} catch (@SuppressWarnings("unused") final Exception e) {
+			throw new JustifyException(
+					JstExceptionPO.withMessage("The [" + JstConfigureTestingMulticorePO.class.getSimpleName()
+							+ "] class should be extended with an instance containing proper values."));
+		}
+
+		getForkJoinPool();
+
+		return configureTestInstancePO;
+	}
+
 }
