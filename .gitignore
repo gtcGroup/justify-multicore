@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# SQL file
+*.jdbc
+
 # Log file
 *.log
 
@@ -10,7 +13,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package Files 
 *.jar
 *.war
 *.ear
@@ -20,3 +23,19 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Folders 
+/build
+/bin
+/bin/
+
+# Dot Artifacts # 
+.settings
+.classpath
+.project
+
+#Gradle
+gradle.properties
+**/*.gradle
+!build.gradle
+!gradlew.*
